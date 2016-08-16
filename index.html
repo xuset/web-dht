@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>DHT | PeerRelay</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script src="bundle.js"></script>
+  <script>
+    function getdht () {
+      var hash = document.getElementById('getHashTxt').value
+      dht.get(hash, function (err, value) {
+        if (err) alert('Error: ' + err)
+        else if (value == null) alert('Value not found')
+        else alert('Found Value: ' + value.v.toString())
+      })
+    }
+
+    function putdht () {
+      var value = document.getElementById('putValueTxt').value
+      dht.put(value, function(err, hash) {
+        if (err) alert('Error: ' + err)
+        else alert('Value stored\nHash: ' + hash.toString('hex'))
+      })
+    }
+
+    function updateStats () {
+      document.getElementById('dhtStats').innerHTML = JSON.stringify(dht.toJSON(), null, 4)
+    }
+
+    setInterval(updateStats, 1000)
+
+    window.dht = WebDHT.start({
+      bootstrap: [ 'ws://localhost:8000' ]
+    })
+
+    window.dht.on('error', function(err) {
+      alert('DHT Error: ' + err)
+    })
+
+    window.dht.on('warning', function(warn) {
+      alert('DHT Warning: ' + warn)
+    })
+
+    window.onload = function() {
+      document.getElementById('nodeId').innerHTML = 'Node ID: ' + dht.nodeId.toString('hex')
+    }
+  </script>
+</head>
+<body>
+  <div class="container" style='padding-top: 10px'>
+    <div class="page-header">
+      <h1>Web DHT Demo <small>Built with <a target="_blank" href="https://github.com/feross/bittorrent-dht">bittorrent-dht</a> and <a target="_blank" href="https://github.com/xuset/peer-relay">peer-relay</a></small></h1>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Get DHT Value</h3>
+          </div>
+          <div class="panel-body">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Hash" id='getHashTxt'>
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button" onclick='getdht()'>Get</button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Put DHT Value</h3>
+          </div>
+          <div class="panel-body">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Value" id='putValueTxt'>
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button" onclick='putdht()'>Put</button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">DHT stats</h3>
+          </div>
+          <div class="panel-body">
+            <p id='nodeId'></p>
+            <pre><code id='dhtStats'></code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

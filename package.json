@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "bundle": "standard && browserify index.js -s WebDHT -d -o bundle.js -i ws",
+    "start": "./server.js",
+    "prepublish": "npm run -s bundle"
+  },
+  "dependencies": {
+    "bittorrent-dht": "^7.3.0",
+    "debug": "^2.2.0",
+    "peer-relay": "0.0.2"
+  },
+  "devDependencies": {
+    "browserify": "^13.1.0",
+    "standard": "^7.1.2"
+  }
+}

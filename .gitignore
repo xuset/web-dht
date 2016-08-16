@@ -1,0 +1,6 @@
+*.swp
+node_modules
+*.ignore
+npm-debug.log*
+bundle.js
+*.swo
