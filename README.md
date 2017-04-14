@@ -1,5 +1,7 @@
 # Web-DHT
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/xuset/web-dht.svg)](https://greenkeeper.io/)
+
 Web-DHT is a demo showing one possible way for running a DHT within the web browser. It does this by utilizing [bittorrent-dht](https://github.com/feross/bittorrent-dht) as the DHT protococol and [peer-relay](https://github.com/xuset/peer-relay) as the underlying transport.
 
 ## How it works
